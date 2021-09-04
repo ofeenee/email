@@ -1,5 +1,4 @@
-import validator from 'validator';
-const { isEmail } = validator;
+import isEmail from 'validator/lib/isEmail.js';
 
 class Email {
   #email;
