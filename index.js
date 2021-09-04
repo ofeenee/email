@@ -1,16 +1,30 @@
-import validator from 'https://esm.sh/validator';
+import validator from 'validator';
 const { isEmail } = validator;
 
 class Email {
   #email;
 
-  constructor(Email) {
+  constructor(email) {
     try {
       if (isEmail(email)) {
         this.#email = email;
       }
       else {
         throw new Error('Email value is invalid.');
+      }
+    }
+    catch (error) {
+      console.log(error.message);
+    }
+  }
+
+  static validate(email) {
+    try {
+      if (!email || typeof email !== 'string' || !isEmail(email)) {
+        throw new Error('Email value is invalid.');
+      }
+      else {
+        return true;
       }
     }
     catch (error) {
@@ -34,6 +48,10 @@ class Email {
       console.log(error.message);
 
     }
+  }
+
+  get() {
+    return this.#email;
   }
 }
 

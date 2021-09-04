@@ -1,0 +1,26 @@
+{
+  "name": "@ofeenee/email",
+  "version": "0.0.1",
+  "type": "module",
+  "description": "A class for validating, verifying, and managing an email... and more.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ofeenee/Class-Email.git"
+  },
+  "keywords": [
+    "Email"
+  ],
+  "author": "ofeenee <ofeenee@gmail.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/ofeenee/Class-Email/issues"
+  },
+  "homepage": "https://github.com/ofeenee/Class-Email#readme",
+  "dependencies": {
+    "validator": "^13.6.0"
+  }
+}
