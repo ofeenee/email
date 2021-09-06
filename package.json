@@ -1,11 +1,14 @@
 {
   "name": "@ofeenee/email",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "type": "module",
   "description": "A class for validating, verifying, and managing an email... and more.",
-  "main": "index.js",
+  "main": "Email.js",
+  "directories": {
+    "test": "test"
+  },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "mocha || true"
   },
   "repository": {
     "type": "git",
@@ -22,5 +25,9 @@
   "homepage": "https://github.com/ofeenee/Class-Email#readme",
   "dependencies": {
     "validator": "^13.6.0"
+  },
+  "devDependencies": {
+    "chai": "^4.3.4",
+    "mocha": "^9.1.1"
   }
 }
