@@ -6,21 +6,21 @@ class Email {
   constructor(email) {
     try {
       if (isEmail(email)) {
-        this.#email = email;
+        return this.#email = email;
       }
       else {
         throw new Error('Email value is invalid.');
       }
     }
     catch (error) {
-      throw error;
+      return error;
     }
   }
 
   static validate(email) {
     try {
       if (!email || typeof email !== 'string' || !isEmail(email)) {
-        throw new Error('Email value is invalid.');
+        return false;
       }
       else {
         return true;
@@ -37,7 +37,7 @@ class Email {
         this.#email = email;
       }
       else if (email === this.#email) {
-        throw new Error('update is not necessary.');
+        return;
       }
       else {
         throw new Error('email value is invalid.');
