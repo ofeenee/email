@@ -3,18 +3,36 @@ import isEmail from 'validator/lib/isEmail.js';
 class Email {
   #email;
 
-  constructor(email) {
+  constructor() {
     try {
-      if (isEmail(email)) {
-        return this.#email = email;
+
+    }
+    catch (error) {
+      throw error;
+    }
+  }
+
+  set(email) {
+    try {
+      if (!isEmail(email)) {
+        throw new Error('email value is invalid.');
+      }
+      else if (email === this.#email) {
+        return this.#email;
       }
       else {
-        throw new Error('Email value is invalid.');
+        this.#email = email;
+        return this.#email;
       }
     }
     catch (error) {
-      return error;
+      throw error;
     }
+  }
+
+  get() {
+    if (this.#email) return this.#email;
+    else return null;
   }
 
   static validate(email) {
@@ -29,28 +47,6 @@ class Email {
     catch (error) {
       throw error;
     }
-  }
-
-  update(email) {
-    try {
-      if (isEmail(email) && email !== this.#email) {
-        this.#email = email;
-      }
-      else if (email === this.#email) {
-        return;
-      }
-      else {
-        throw new Error('email value is invalid.');
-      }
-    }
-    catch (error) {
-      throw error;
-
-    }
-  }
-
-  get() {
-    return this.#email;
   }
 }
 
