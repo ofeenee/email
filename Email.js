@@ -5,7 +5,7 @@ class Email {
 
   constructor() {
     try {
-
+      this.#email = null;
     }
     catch (error) {
       throw error;
