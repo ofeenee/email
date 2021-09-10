@@ -24,10 +24,12 @@
   },
   "homepage": "https://github.com/ofeenee/Class-Email#readme",
   "dependencies": {
+    "twilio": "^3.67.2",
     "validator": "^13.6.0"
   },
   "devDependencies": {
     "chai": "^4.3.4",
+    "dotenv": "^10.0.0",
     "mocha": "^9.1.1"
   }
 }

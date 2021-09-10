@@ -2,6 +2,10 @@ import {assert} from 'chai';
 import Email from '../Email.js';
 import validator from 'validator';
 
+
+// import dotenv from 'dotenv';
+// dotenv.config();
+
 const validEmailAddress = 'example@email.com';
 const invalidEmailAddress = 'example@emailcom';
 const emailToTest = process.env.email;
@@ -71,6 +75,52 @@ if (emailToTest) {
       it(`get() instance method to return ${emailToTest}`, function() {
         assert.strictEqual(email.get(), emailToTest);
       });
+
+
+      if (process.env.code) {
+        it(`confirm verification email to ${emailToTest}`, async function() {
+          try {
+            const verification = await email.confirmEmailVerification(process.env.code);
+            assert.isDefined(verification);
+            assert.strictEqual(verification.status, 'approved');
+            assert.strictEqual(verification.to, email.get());
+            assert.isTrue(verification.valid);
+            assert.isTrue(email.isVerified());
+
+          } catch(error) {
+            assert.fail(error.message);
+          }
+        });
+      }
+      else {
+        it(`send verification email to ${emailToTest}`, async function () {
+          try {
+            const verification = await email.sendEmailVerification();
+
+            // const {sid, status, valid, sendCodeAttempts} = verification;
+            // console.log({sid, status, valid, sendCodeAttempts});
+
+            assert.isDefined(verification);
+            assert.containsAllKeys(verification, [
+              'sid',
+              'serviceSid',
+              'accountSid',
+              'to',
+              'channel',
+              'status',
+              'valid',
+            ]);
+            assert.strictEqual(verification.status, 'pending');
+            assert.strictEqual(verification.to, email.get());
+            assert.isFalse(verification.valid);
+            assert.isFalse(email.isVerified());
+
+          } catch (error) {
+            assert.fail(error.message);
+          }
+        });
+      }
+
       it(`set(${validEmailAddress}) of Email instance to update (successfully)`, function() {
         assert.strictEqual(email.set(validEmailAddress), validEmailAddress);
       });
