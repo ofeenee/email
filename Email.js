@@ -69,7 +69,7 @@ class Email {
     try {
       const verification = await client.verify.services(serviceSid)
         .verifications
-        .create({ from: 'yousif@almudhaf.com', to: this.#email, channel: 'email' })
+        .create({ to: this.#email, channel: 'email' })
 
       return verification;
 
