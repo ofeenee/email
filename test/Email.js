@@ -3,9 +3,6 @@ import Email from '../Email.js';
 import validator from 'validator';
 
 
-// import dotenv from 'dotenv';
-// dotenv.config();
-
 const validEmailAddress = 'example@email.com';
 const invalidEmailAddress = 'example@emailcom';
 const emailToTest = process.env.email;
