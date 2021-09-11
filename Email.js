@@ -1,5 +1,5 @@
 import validator from 'validator';
-const {isEmail, isBoolean} = validator;
+const {isEmail} = validator;
 
 function validateEmailAddress(string) {
   try {
@@ -62,10 +62,8 @@ function Email() {
         set: function (boolean) {
           try {
             if (typeof boolean !== 'string' || !boolean) throw new Error('value is invalid.')
-            if (!isBoolean(boolean)) {
-              throw new Error('value is invalid.');
-            }
-            else if (boolean === verified) {
+
+            if (boolean === verified) {
               return verified;
             }
             else {
