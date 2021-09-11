@@ -21,7 +21,15 @@ function Email() {
 
     return Object.defineProperties(this, {
       validate: {
-        value: isEmail,
+        value: function validateEmailAddress(string) {
+          try {
+            if (typeof string !== 'string' || !string) throw new Error('value is invalid.');
+            else return isEmail(string);
+          }
+          catch (error) {
+
+          }
+        },
         enumerable: true
       },
       emailAddress: {
@@ -112,8 +120,6 @@ function Email() {
         enumerable: true
       }
     });
-
-    // return theEmail;
   }
   catch (error) {
     throw error;
