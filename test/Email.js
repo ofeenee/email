@@ -179,6 +179,7 @@ if (emailToTest) {
           assert.fail(error.message);
         }
       });
+
       it(`assign (${invalidEmailAddress}) to emailAddress property to update (throws error)`, function() {
         try {
           email.emailAddress = invalidEmailAddress;
@@ -187,6 +188,15 @@ if (emailToTest) {
         catch (error) {
           assert.instanceOf(error, Error);
           assert.strictEqual(error.message, 'email value is invalid.');
+        }
+      });
+
+      it(`retrieve (${validEmailAddress}) from emailAddress property (last valid assignment)`, function() {
+        try {
+          assert.strictEqual(email.emailAddress, validEmailAddress);
+        }
+        catch (error) {
+          assert.fail(error.message);
         }
       });
 
