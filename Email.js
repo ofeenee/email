@@ -1,6 +1,16 @@
 import validator from 'validator';
 const {isEmail, isBoolean} = validator;
 
+function validateEmailAddress(string) {
+  try {
+    if (typeof string !== 'string' || !string) throw new Error('value is invalid.');
+    else return isEmail(string);
+  }
+  catch (error) {
+
+  }
+}
+
 import dotenv from 'dotenv';
 dotenv.config();
 
@@ -21,21 +31,13 @@ function Email() {
 
     return Object.defineProperties(this, {
       validate: {
-        value: function validateEmailAddress(string) {
-          try {
-            if (typeof string !== 'string' || !string) throw new Error('value is invalid.');
-            else return isEmail(string);
-          }
-          catch (error) {
-
-          }
-        },
+        value: validateEmailAddress,
         enumerable: true
       },
       emailAddress: {
         set: function setEmailAddress(string) {
           try {
-            if (!isEmail(string)) {
+            if (!validateEmailAddress(string)) {
               throw new Error('email value is invalid.');
             }
             else if (string === email) {
