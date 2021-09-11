@@ -125,10 +125,5 @@ function Email() {
     throw error;
   }
 }
-const email = new Email();
-
-console.log(email);
-console.log(email.emailAddress);
-console.log(email.verified);
 
 export default Email;
