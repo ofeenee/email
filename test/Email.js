@@ -139,7 +139,7 @@ if (emailToTest) {
           } catch(error) {
             assert.fail(error.message);
           }
-        });
+        }).timeout(10000);
       }
       else {
         it(`send verification email to ${emailToTest}`, async function () {
@@ -167,7 +167,7 @@ if (emailToTest) {
           } catch (error) {
             assert.fail(error.message);
           }
-        });
+        }).timeout(10000);
       }
 
       it(`assign (${validEmailAddress}) to emailAddress property to update (successfully)`, function() {
