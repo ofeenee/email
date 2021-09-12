@@ -35,10 +35,6 @@ function Email(verified = false) {
         value: verified,
         configurable: true
       },
-      validate: {
-        value: validateEmailAddress,
-        enumerable: true
-      },
       set: {
         value: (string) => {
           try {
@@ -71,6 +67,10 @@ function Email(verified = false) {
           if (this.email) return this.email;
           else return null;
         },
+        enumerable: true
+      },
+      validate: {
+        value: validateEmailAddress,
         enumerable: true
       },
       verification: {

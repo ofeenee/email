@@ -1,6 +1,6 @@
 {
   "name": "@ofeenee/email",
-  "version": "0.0.8",
+  "version": "0.0.9",
   "type": "module",
   "description": "A class for validating, verifying, and managing an email... and more.",
   "main": "Email.js",
