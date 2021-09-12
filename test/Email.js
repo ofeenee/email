@@ -39,37 +39,37 @@ describe(`new Email()`, function() {
     }
   });
 
-  it(`the property emailAddress of the Email instance "email" should return null`, function () {
+  it(`email.get() should return null`, function () {
     try {
-      assert.isNull(email.emailAddress);
+        assert.isNull(email.get());
     }
     catch (error) {
       assert.fail(error.message);
     }
   });
 
-  it(`assign (${validEmailAddress}) to emailAddress property of the Email instance "email" (successfully)`, function() {
+  it(`email.set(${validEmailAddress}) to the Email instance "email" (successfully)`, function() {
     try {
-      email.emailAddress = validEmailAddress;
-      assert.equal(email.emailAddress, validEmailAddress);
+      assert.equal(email.set(validEmailAddress), validEmailAddress);
+      assert.equal(email.get(), validEmailAddress);
     }
     catch (error) {
       assert.fail(error.message);
     }
   });
 
-  it(`assign (${invalidEmailAddress}) to emailAddress property of the Email instance "email" (throws error)`, function() {
+  it(`email.set(${invalidEmailAddress}) to the Email instance "email" (throws error)`, function() {
     try {
-      email.emailAddress = invalidEmailAddress;
-      assert.fail('email value is invalid, therefore should have thrown an error.');
+      email.set(invalidEmailAddress);
+      assert.fail('email value is invalid, therefore should have thrown an error. This message proves otherwise.');
     } catch (error) {
       assert.instanceOf(error, Error);
       assert.strictEqual(error.message, 'email value is invalid.');
     }
   });
-  it(`emailAddress property of the Email instance "email" should return ${validEmailAddress}`, function() {
+  it(`email.get should return last valid assigned email (${validEmailAddress})`, function() {
     try {
-      assert.strictEqual(email.emailAddress, validEmailAddress);
+      assert.strictEqual(email.get(), validEmailAddress);
     }
     catch (error) {
       assert.fail(error.message);
@@ -95,7 +95,7 @@ if (emailToTest) {
 
     if (validateEmail) {
       // test validate() static method on Email
-      it(`validate(${emailToTest}) to return true`, function() {
+      it(`email.validate(${emailToTest}) to return true`, function() {
         try {
           const valid = email.validate(emailToTest)
           assert.isTrue(valid);
@@ -106,19 +106,18 @@ if (emailToTest) {
         }
       });
       // try to set the address value to the Email instance
-      it(`assign (${emailToTest}) to emailAddress property`, function() {
+      it(`email.set(${emailToTest}) to email instance (successfully)`, function() {
         try {
-          email.emailAddress = emailToTest;
-          assert.strictEqual(email.emailAddress, emailToTest);
+          assert.strictEqual(email.set(emailToTest), emailToTest);
         }
         catch (error) {
           assert.fail(error.message);
         }
       });
       // try to get the address value from the instance email
-      it(`emailAddress property should return ${emailToTest}`, function() {
+      it(`email.get() should return ${emailToTest}`, function() {
         try {
-          assert.strictEqual(email.emailAddress, emailToTest);
+          assert.strictEqual(email.get(), emailToTest);
         }
         catch (error) {
           assert.fail(error.message);
@@ -127,14 +126,28 @@ if (emailToTest) {
 
 
       if (process.env.code) {
-        it(`confirm verification email to ${emailToTest}`, async function() {
+        it(`confirm verification email to ${emailToTest} "invalid code"`, async function() {
           try {
-            const verification = await email.confirm(process.env.code);
+            const verification = await email.verification.confirmCode('123456');
+            assert.isDefined(verification);
+            assert.strictEqual(verification.status, 'pending');
+            assert.strictEqual(verification.to, email.get());
+            assert.isFalse(verification.valid);
+            assert.isFalse(email.isVerified());
+
+          } catch(error) {
+            assert.fail(error.message);
+          }
+        }).timeout(10000);
+
+        it(`confirm verification email to ${emailToTest} "valid code"`, async function() {
+          try {
+            const verification = await email.verification.confirmCode(process.env.code);
             assert.isDefined(verification);
             assert.strictEqual(verification.status, 'approved');
-            assert.strictEqual(verification.to, email.emailAddress);
+            assert.strictEqual(verification.to, email.get());
             assert.isTrue(verification.valid);
-            assert.isTrue(email.verified);
+            assert.isTrue(email.isVerified());
 
           } catch(error) {
             assert.fail(error.message);
@@ -144,7 +157,7 @@ if (emailToTest) {
       else {
         it(`send verification email to ${emailToTest}`, async function () {
           try {
-            const verification = await email.verify();
+            const verification = await email.verification.sendCode();
 
             // const {sid, status, valid, sendCodeAttempts} = verification;
             // console.log({sid, status, valid, sendCodeAttempts});
@@ -160,9 +173,9 @@ if (emailToTest) {
               'valid',
             ]);
             assert.strictEqual(verification.status, 'pending');
-            assert.strictEqual(verification.to, email.emailAddress);
+            assert.strictEqual(verification.to, email.get());
             assert.isFalse(verification.valid);
-            assert.isFalse(email.verified);
+            assert.isFalse(email.isVerified());
 
           } catch (error) {
             assert.fail(error.message);
@@ -170,19 +183,18 @@ if (emailToTest) {
         }).timeout(10000);
       }
 
-      it(`assign (${validEmailAddress}) to emailAddress property to update (successfully)`, function() {
+      it(`email.set(${validEmailAddress}) to update (successfully)`, function() {
         try {
-          email.emailAddress = validEmailAddress;
-          assert.strictEqual(email.emailAddress, validEmailAddress);
+          assert.strictEqual(email.set(validEmailAddress), validEmailAddress);
         }
         catch (error) {
           assert.fail(error.message);
         }
       });
 
-      it(`assign (${invalidEmailAddress}) to emailAddress property to update (throws error)`, function() {
+      it(`email.set(${invalidEmailAddress}) to update (throws error)`, function() {
         try {
-          email.emailAddress = invalidEmailAddress;
+          email.set(invalidEmailAddress);
           assert.fail('email value is invalid, therefore should have thrown an error.');
         }
         catch (error) {
@@ -191,9 +203,9 @@ if (emailToTest) {
         }
       });
 
-      it(`retrieve (${validEmailAddress}) from emailAddress property (last valid assignment)`, function() {
+      it(`email.get(${validEmailAddress}) to retrieve last valid email address assigned`, function() {
         try {
-          assert.strictEqual(email.emailAddress, validEmailAddress);
+          assert.strictEqual(email.get(), validEmailAddress);
         }
         catch (error) {
           assert.fail(error.message);
@@ -202,7 +214,7 @@ if (emailToTest) {
 
     }
     else {
-      it(`validate(${emailToTest}) to return false (invalid)`, function() {
+      it(`email.validate(${emailToTest}) to return false (invalid)`, function() {
         try {
           assert.isFalse(email.validate(emailToTest));
         }
@@ -211,9 +223,9 @@ if (emailToTest) {
         }
       });
 
-      it(`assign (${emailToTest}) to property emailAddress property should fail and throw an error`, function() {
+      it(`email.set(${emailToTest}) should fail and throw an error`, function() {
         try {
-          email.emailAddress = emailToTest;
+          email.set(emailToTest);
           assert.fail('email value is invalid, therefore should have thrown an error.');
         }
         catch (error) {
@@ -222,8 +234,8 @@ if (emailToTest) {
         }
       });
 
-      it(`emailAddress property should return null`, function() {
-        assert.isNull(email.emailAddress);
+      it(`email.get() should return null`, function() {
+        assert.isNull(email.get());
       });
     }
   });
