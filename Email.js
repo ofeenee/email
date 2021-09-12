@@ -130,7 +130,8 @@ function Email(verified = false) {
           catch (error) {
             throw error;
           }
-        }
+        },
+        enumerable: true
       }
     });
   }
