@@ -25,7 +25,7 @@ const client = twilio(accountSid, authToken);
 
 function Email(verified = false) {
   try {
-    if (!new.target) return new Email();
+    if (!new.target) return new Email(verified);
     return Object.defineProperties(this, {
       email: {
         value: null,
