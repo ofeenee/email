@@ -23,37 +23,22 @@ const {
 import twilio from 'twilio';
 const client = twilio(accountSid, authToken);
 
-function Email(verified = false) {
+function Email(object = {}) {
   try {
     if (!new.target) return new Email(verified);
     return Object.defineProperties(this, {
-      email: {
-        value: null,
-        configurable: true
-      },
-      verified: {
-        value: verified,
-        configurable: true
-      },
       set: {
-        value: (string) => {
+        value: function setEmailAddress(string) {
           try {
             if (!validateEmailAddress(string)) {
               throw new Error('email value is invalid.');
             }
-            else if (string === this.email) {
-              return this.email;
+            else if (string === object?.email) {
+              return object?.email;
             }
             else {
-              Object.defineProperty(this, 'email', {
-                value: string,
-                configurable: true
-              });
-              Object.defineProperty(this, 'verified', {
-                value: false,
-                configurable: true
-              });
-              return this.email;
+              object.email = string;
+              return object.email;
             }
 
           } catch (error) {
@@ -63,14 +48,15 @@ function Email(verified = false) {
         enumerable: true
       },
       get: {
-        value: () => {
-          if (this.email) return this.email;
-          else return null;
+        value: function getEmailAddress() {
+          try {
+            if (object.email) return object.email;
+            else return null;
+          }
+          catch (error) {
+            throw error;
+          }
         },
-        enumerable: true
-      },
-      validate: {
-        value: validateEmailAddress,
         enumerable: true
       },
       verification: {
@@ -120,18 +106,6 @@ function Email(verified = false) {
           }
         }),
         enumerable: true
-      },
-      isVerified: {
-        value: () => {
-          try {
-            if (typeof this.verified === 'boolean') return this.verified;
-            else return null;
-          }
-          catch (error) {
-            throw error;
-          }
-        },
-        enumerable: true
       }
     });
   }
@@ -139,5 +113,6 @@ function Email(verified = false) {
     throw error;
   }
 }
+
 
 export default Email;
