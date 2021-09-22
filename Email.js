@@ -38,6 +38,7 @@ function Email(verified = false) {
       set: {
         value: (string) => {
           try {
+            string = string?.trim()?.toLowerCase();
             if (!validateEmailAddress(string)) {
               throw new Error('email value is invalid.');
             }
