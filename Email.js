@@ -25,7 +25,7 @@ const client = twilio(accountSid, authToken);
 
 function Email(email = null) {
   try {
-    if (!new.target) return new Email(verified);
+    if (!new.target) return new Email(email);
     return Object.defineProperties(this, {
       email: {
         value: validateEmailAddress(email) ? email : null,
