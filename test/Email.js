@@ -133,7 +133,6 @@ if (emailToTest) {
             assert.strictEqual(verification.status, 'pending');
             assert.strictEqual(verification.to, email.get());
             assert.isFalse(verification.valid);
-            assert.isFalse(email.isVerified());
 
           } catch(error) {
             assert.fail(error.message);
@@ -147,7 +146,6 @@ if (emailToTest) {
             assert.strictEqual(verification.status, 'approved');
             assert.strictEqual(verification.to, email.get());
             assert.isTrue(verification.valid);
-            assert.isTrue(email.isVerified());
 
           } catch(error) {
             assert.fail(error.message);
@@ -175,7 +173,6 @@ if (emailToTest) {
             assert.strictEqual(verification.status, 'pending');
             assert.strictEqual(verification.to, email.get());
             assert.isFalse(verification.valid);
-            assert.isFalse(email.isVerified());
 
           } catch (error) {
             assert.fail(error.message);
