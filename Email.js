@@ -3,7 +3,7 @@ const {isEmail} = validator;
 
 function validateEmailAddress(string) {
   try {
-    if (typeof string !== 'string' || !string) throw new Error('value is invalid.');
+    if (typeof string !== 'string' || !string) return false;
     else return isEmail(string);
   }
   catch (error) {
@@ -23,16 +23,12 @@ const {
 import twilio from 'twilio';
 const client = twilio(accountSid, authToken);
 
-function Email(verified = false) {
+function Email(email = null) {
   try {
     if (!new.target) return new Email(verified);
     return Object.defineProperties(this, {
       email: {
-        value: null,
-        configurable: true
-      },
-      verified: {
-        value: verified,
+        value: validateEmailAddress(email) ? email : null,
         configurable: true
       },
       set: {
@@ -48,10 +44,6 @@ function Email(verified = false) {
             else {
               Object.defineProperty(this, 'email', {
                 value: string,
-                configurable: true
-              });
-              Object.defineProperty(this, 'verified', {
-                value: false,
                 configurable: true
               });
               return this.email;
@@ -103,15 +95,7 @@ function Email(verified = false) {
                   .verificationChecks
                   .create({ to: this.email, code });
 
-                const { valid } = verification;
-                if (valid) {
-                  Object.defineProperty(this, 'verified', {
-                    value: true,
-                    configurable: true
-                  });
-                }
                 return verification;
-
               }
               catch (error) {
                 throw error;
@@ -122,18 +106,6 @@ function Email(verified = false) {
         }),
         enumerable: true
       },
-      isVerified: {
-        value: () => {
-          try {
-            if (typeof this.verified === 'boolean') return this.verified;
-            else return null;
-          }
-          catch (error) {
-            throw error;
-          }
-        },
-        enumerable: true
-      }
     });
   }
   catch (error) {
