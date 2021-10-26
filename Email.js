@@ -26,6 +26,7 @@ const client = twilio(accountSid, authToken);
 function Email(email = null) {
   try {
     if (!new.target) return new Email(email);
+
     return Object.defineProperties(this, {
       email: {
         value: validateEmailAddress(email) ? email : null,
@@ -60,10 +61,6 @@ function Email(email = null) {
           if (this.email) return this.email;
           else return null;
         },
-        enumerable: true
-      },
-      validate: {
-        value: validateEmailAddress,
         enumerable: true
       },
       verification: {
@@ -112,5 +109,10 @@ function Email(email = null) {
     throw error;
   }
 }
+
+Object.defineProperty(Email, 'validate', {
+  value: validateEmailAddress,
+  enumerable: true
+});
 
 export default Email;
