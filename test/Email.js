@@ -12,7 +12,7 @@ describe('Email.validate():', function() {
   const email = new Email();
   it(`validate(${validEmailAddress}) to return true`, function() {
     try {
-      assert.isTrue(email.validate(validEmailAddress));
+      assert.isTrue(Email.validate(validEmailAddress));
     }
     catch (error) {
       assert.fail(error.message);
@@ -20,7 +20,7 @@ describe('Email.validate():', function() {
   });
   it(`validate(${invalidEmailAddress}) to return false`, function() {
     try {
-      assert.isFalse(email.validate(invalidEmailAddress));
+      assert.isFalse(Email.validate(invalidEmailAddress));
     }
     catch (error) {
       assert.fail(error.message);
