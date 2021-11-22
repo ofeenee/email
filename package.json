@@ -1,11 +1,10 @@
 {
   "name": "@ofeenee/email",
   "version": "0.0.17",
-  "type": "module",
   "description": "A class for validating, verifying, and managing an email... and more.",
-  "main": "Email.js",
+  "main": "/dist/Email.js",
   "directories": {
-    "test": "test"
+    "test": "/dist/test"
   },
   "scripts": {
     "test": "mocha || true"
@@ -28,6 +27,10 @@
     "validator": "^13.6.0"
   },
   "devDependencies": {
+    "@types/chai": "^4.2.22",
+    "@types/mocha": "^9.0.0",
+    "@types/twilio": "^3.19.3",
+    "@types/validator": "^13.7.0",
     "chai": "^4.3.4",
     "dotenv": "^10.0.0",
     "mocha": "^9.1.1"
