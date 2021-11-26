@@ -27,6 +27,12 @@ function Email(email = null) {
   try {
     if (!new.target) return new Email(email);
 
+    if (email) {
+      const valid = validateEmailAddress(email);
+      if (!valid) throw new Error('Invalid email address');
+    }
+
+
     return Object.defineProperties(this, {
       email: {
         value: validateEmailAddress(email) ? email : null,
